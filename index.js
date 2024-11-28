@@ -14,7 +14,7 @@ mongoose
   .catch((err) => console.error('Error al conectar a MongoDB:', err));
 
 // Importa las rutas
-const usersRoutes = require('./api/users');
+const usersRoutes = require('./users');
 app.use('/api/users', usersRoutes);
 
 // Puerto

@@ -1,20 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
+const User = require('./models/user.model');
 
-// Modelo de ejemplo
-const UserSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  age: Number,
-});
-
-const User = mongoose.model('User', UserSchema);
 
 // GET: Obtener todos los usuarios
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find(); // Usamos el modelo para buscar usuarios
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener los usuarios' });
@@ -24,11 +16,11 @@ router.get('/', async (req, res) => {
 // POST: Crear un nuevo usuario
 router.post('/', async (req, res) => {
   try {
-    const newUser = new User(req.body);
+    const newUser = new User(req.body); // Creamos un nuevo usuario basado en el modelo
     await newUser.save();
     res.status(201).json(newUser);
   } catch (error) {
-    res.status(400).json({ error: 'Error al crear el usuario' });
+    res.status(400).json({ error: 'Error al crear el usuario', details: error.message });
   }
 });
 
