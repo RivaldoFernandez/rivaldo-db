@@ -1,17 +1,36 @@
 const express = require('express');
 const router = express.Router();
-const User = require('./models/user.model');
-
+const User = require('../Model/usermodel'); // Importa correctamente el modelo "User"
 
 // GET: Obtener todos los usuarios
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find(); // Usamos el modelo para buscar usuarios
+    const users = await User.find(); // Usamos el modelo correcto para obtener los usuarios
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener los usuarios' });
   }
 });
+// GET: Obtener usuario por ID
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Buscar el usuario por ID
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    // Devolver la información del usuario
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener el usuario', details: error.message });
+  }
+});
+
 
 // POST: Crear un nuevo usuario
 router.post('/', async (req, res) => {
