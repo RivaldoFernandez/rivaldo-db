@@ -51,7 +51,8 @@ const cors = require('cors');
 const loginRoutes = require('./routes/login');
 const registerRoutes = require('./routes/register');
 const usersRoutes = require('./routes/users');
-const authenticateToken = require('./middleware/authenticateToken'); // Middleware para autenticación
+const authenticateToken = require('./middleware/authenticateToken'); 
+const usersRegisterRoutes = require('./routes/usersRegister');
 
 dotenv.config();
 
@@ -78,6 +79,7 @@ mongoose
 app.use('/api/login', loginRoutes); // Ruta para login
 app.use('/api/register', registerRoutes); // Ruta para registro
 app.use('/api/users', authenticateToken, usersRoutes);  // Ruta para usuarios protegida por autenticación
+app.use('/api/usersRegister', usersRegisterRoutes);
 app.use('/api/user', authenticateToken, (req, res) => {
   // Devolver los datos completos del usuario
   res.json({
